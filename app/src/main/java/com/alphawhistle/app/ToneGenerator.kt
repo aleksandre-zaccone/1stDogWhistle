@@ -25,6 +25,8 @@ class ToneGenerator(context: Context) {
 
     fun start() {
         if (active) return
+        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+        audioManager.isSpeakerphoneOn = true
         requestAudioFocus()
 
         val minBytes = AudioTrack.getMinBufferSize(
@@ -80,6 +82,8 @@ class ToneGenerator(context: Context) {
         audioTrack?.release()
         audioTrack = null
         abandonAudioFocus()
+        audioManager.isSpeakerphoneOn = false
+        audioManager.mode = AudioManager.MODE_NORMAL
     }
 
     private fun requestAudioFocus() {
